@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente de Color & Upload</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Subir Imagen & Analizar</h2>
+    
+    <div class="drop-zone" id="dropZone">
+        <p>Arrastra tu imagen aquí o haz click</p>
+        <input type="file" id="fileInput" hidden accept="image/*">
+    </div>
+
+    <div class="status" id="statusText"></div>
+    <img id="preview" class="preview" crossorigin="anonymous">
+
+    <div class="input-group">
+        <label>URL de Imagen (Para Backgrounds):</label>
+        <div class="row">
+            <input type="text" id="urlOutput" placeholder="Aquí aparecerá tu URL..." readonly>
+            <button onclick="copiarInput('urlOutput')" class="btn-copy">Copiar</button>
+        </div>
+    </div>
+
+    <div id="paletteSection" style="display:none; margin-top: 40px;">
+        <h3>Paleta Detectada</h3>
+        <div id="paletteContainer" class="palette-grid">
+            </div>
+    </div>
+
+</div>
+
+</body>
+</html>
