@@ -187,3 +187,135 @@ function copiarInput(id) {
     document.execCommand('copy');
     alert("URL copiada");
 }
+
+
+// ==========================================
+// ⚡ SECCIÓN DE CÓDIGOS GUARDADOS (SNIPPETS)
+// ==========================================
+
+// 1. PEGA AQUÍ TU CÓDIGO HTML DE "QUENTRO" (Entre las comillas invertidas)
+const CODIGO_QUENTRO = `
+<div class="container_quentro">
+        <div class="icons">
+            <div class="icon-container">
+                <p>Descargá Quentro desde tu celular acá:</p>
+                <a href="https://play.google.com/store/apps/details?id=com.getcrowder.quentro&pli=1" target="_blank">
+                    <img src="https://cdn.getcrowder.com/images/fa97c118-82ae-4396-9f16-b784812d8fd8-playstore.png" alt="Ícono 1" class="icon">
+                </a>
+            </div>
+            <div class="icon-container">
+                <!-- <p>Ícono 2</p> -->
+                <a href="https://apps.apple.com/us/app/quentro" target="_blank">
+                    <img src="https://cdn.getcrowder.com/images/3fbc8b88-791d-4863-b06d-2c8b00046d48-game.png" alt="Ícono 2" class="icon">
+                </a>
+            </div>
+        </div>
+        <div class="item">
+            <p>Instructivo</p>
+            <a href="https://drive.google.com/file/d/10gRr4A2m8Nfjdjc6S8VgcWh324JGzek3/view" target="_blank">
+                <img src="https://cdn.getcrowder.com/images/d237bbbe-6942-47e9-be34-bb9da929c46b-quentro-png.png" alt="Imagen Principal" class="link-image">
+            </a>
+        </div>
+    </div>
+`;
+
+// 2. PEGA AQUÍ TU CÓDIGO CSS DE "LANDING" (Entre las comillas invertidas)
+const CODIGO_LANDING = `
+.event_blocks {
+    background: #000 url(https://cdn.getcrowder.com/images/eea454f1-a270-48bc-b4c3-70e4a70cb23b-fondo-1920x720.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.text{
+   color: #fff;
+   text-align: center;
+}
+
+.text strong{
+    color:#fff;
+}
+
+summary{
+   color: #fff;
+}
+
+.container_quentro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .item p {
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+        .link-image {
+            width: 100%;
+            max-width: 100px; /* Ajusta este valor según necesites */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .link-image:hover {
+            transform: scale(1.1);
+        }
+        .icons {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15px;
+        }
+        .icon-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .icon-container p {
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .icon:hover {
+            transform: scale(1.2);
+        }
+        
+        .container_quentro p{
+            font-size: 23px;
+            color: #FFF;
+        }
+
+.grid_element .information {
+    background: none;
+}
+
+`;
+
+// Función para copiar
+function copiarCodigo(tipo) {
+    let textoACopiar = "";
+    let nombre = "";
+
+    if (tipo === 'quentro') {
+        textoACopiar = CODIGO_QUENTRO;
+        nombre = "Información Quentro";
+    } else if (tipo === 'css') {
+        textoACopiar = CODIGO_LANDING;
+        nombre = "CSS Landing";
+    }
+
+    navigator.clipboard.writeText(textoACopiar).then(() => {
+        alert(`✅ ¡Copiado!\n\nEl código de "${nombre}" está en tu portapapeles.`);
+    });
+}
+

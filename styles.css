@@ -222,3 +222,65 @@ button.btn-copy:active { transform: translateY(0); }
 .color-card:nth-child(3) { animation-delay: 0.2s; }
 .color-card:nth-child(4) { animation-delay: 0.25s; }
 .color-card:nth-child(n+5) { animation-delay: 0.3s; }
+
+
+
+
+    ```
+
+### 2. `styles.css` (Estilo para los nuevos botones)
+Agrega esto al final de tu CSS. He diseñado unos botones grandes y llamativos que combinan con el estilo "Glass".
+
+```css
+/* === NUEVA SECCIÓN: SNIPPETS === */
+.snippets-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.snippets-section p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.snippets-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-snippet {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f1f1 100%);
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 15px 30px;
+    border-radius: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-snippet:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.btn-snippet:active {
+    transform: scale(0.98);
+}
+
+#quentroLogo{
+    width: 150px;
+    height: auto;
+}

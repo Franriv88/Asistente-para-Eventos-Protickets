@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente de Color & Upload</title>
-    
+    <title>Asistente Protickets</title>
+    <link rel="icon" type="image/png" href="./img/logoPT.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-    
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
 </head>
 <body>
 
 <div class="container">
+
+    <div class="snippets-section">
+        <h3>⚡ Accesos Rápidos</h3>
+        <p>Copia tus códigos frecuentes con un solo click.</p>
+        
+        <div class="snippets-grid">
+            <button class="btn-snippet" onclick="copiarCodigo('quentro')">
+                <img id="quentroLogo" src="./img/QuentroBlack.png" alt="">
+            </button>
+            
+            <button class="btn-snippet" onclick="copiarCodigo('css')">
+                🎨 CSS para Landing
+            </button>
+        </div>
+    </div>
+
     <h2>Subir Imagen & Analizar</h2>
     
     <div class="drop-zone" id="dropZone">
@@ -40,6 +54,8 @@
     </div>
 
 </div>
+
+
 
 </body>
 </html>
