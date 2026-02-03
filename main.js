@@ -314,6 +314,8 @@ function copiarCodigo(tipo) {
         nombre = "CSS Landing";
     }
 
-
+    navigator.clipboard.writeText(textoACopiar).then(() => {
+        
+    });
 }
 
