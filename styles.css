@@ -398,3 +398,66 @@ select#waveStyle {
     outline: none;
     cursor: pointer;
 }
+
+
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-style {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-style:hover {
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-style.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.preview-toggle {
+    display: flex;
+    gap: 5px;
+    background: rgba(0,0,0,0.05);
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.btn-toggle {
+    border: none;
+    padding: 5px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    transition: 0.3s;
+}
+
+.btn-toggle.active {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Ajuste para que el canvas no se pierda en fondo blanco */
+#canvasWrapper.bg-white {
+    background: #ffffff !important;
+    border: 1px solid #eee;
+}

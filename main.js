@@ -135,6 +135,22 @@ let listaColores = ['#007bff', '#ff4d4d'];
 const canvas = document.getElementById('waveCanvas');
 const ctx = canvas.getContext('2d');
 
+// Manejador de clics para los botones de estilo
+document.querySelectorAll('.btn-style').forEach(button => {
+    button.addEventListener('click', function() {
+        // Quitar clase activa de todos
+        document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
+        // Añadir al seleccionado
+        this.classList.add('active');
+        
+        // Actualizar el valor oculto y redibujar
+        const styleInput = document.getElementById('waveStyle');
+        styleInput.value = this.getAttribute('data-value');
+        
+        dibujarOnda();
+    });
+});
+
 function renderColorPickers() {
     const container = document.getElementById('colorsContainer');
     container.innerHTML = '';
@@ -321,3 +337,19 @@ function descargarOnda() {
 }
 
 renderColorPickers();
+
+
+function cambiarFondoPreview(color, btn) {
+    const wrapper = document.getElementById('canvasWrapper');
+    
+    // Cambiar color de fondo
+    if (color === 'white') {
+        wrapper.classList.add('bg-white');
+    } else {
+        wrapper.classList.remove('bg-white');
+    }
+
+    // Gestionar estado activo de los botones
+    btn.parentElement.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}

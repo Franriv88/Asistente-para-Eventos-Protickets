@@ -14,13 +14,14 @@
 
 <div class="container">
 
+    <!-- SECCIÓN: ACCESOS RÁPIDOS -->
     <div class="snippets-section">
         <h3>⚡ Accesos Rápidos</h3>
         <p>Copia tus códigos frecuentes con un solo click.</p>
         
         <div class="snippets-grid">
             <button class="btn-snippet" onclick="copiarCodigo('quentro')">
-                <img id="quentroLogo" src="./img/QuentroBlack.png" alt="">
+                <img id="quentroLogo" src="./img/QuentroBlack.png" alt="Quentro">
             </button>
             
             <button class="btn-snippet" onclick="copiarCodigo('css')">
@@ -29,6 +30,9 @@
         </div>
     </div>
 
+    <hr style="opacity: 0.1; margin: 40px 0;">
+
+    <!-- SECCIÓN: ANALIZADOR DE IMAGEN -->
     <h2>Subir Imagen & Analizar</h2>
     
     <div class="drop-zone" id="dropZone">
@@ -47,51 +51,66 @@
         </div>
     </div>
 
+    <!-- SECCIÓN: PALETA DE COLORES -->
     <div id="paletteSection" style="display:none; margin-top: 40px;">
         <h3>Paleta Detectada</h3>
-        <div id="paletteContainer" class="palette-grid">
-            </div>
+        <div id="paletteContainer" class="palette-grid"></div>
     </div>
 
+    <hr style="opacity: 0.1; margin: 40px 0;">
+
+    <!-- SECCIÓN: GENERADOR DE ONDAS -->
     <div class="wave-generator-section">
         <h3>🌊 Generador de Ondas Protickets (1920x277)</h3>
     
         <div class="wave-controls">
-            <div id="colorsContainer" class="colors-flex">
-                <!-- Los colores se generan aquí dinámicamente -->
-            </div>
-            <button onclick="addColor()" class="btn-mini-add">+ Añadir Color</button>
+            <!-- Selector de Colores Dinámicos -->
+            <label>Colores de la Onda:</label>
+            <div id="colorsContainer" class="colors-flex"></div>
+            <button onclick="addColor()" class="btn-mini-add" style="margin-bottom: 20px;">+ Añadir Color</button>
             
-            <div class="control-group">
-                <label>Estilo de Onda:</label>
-                <select id="waveStyle" onchange="dibujarOnda()">
-                    <option value="sinusoidal">Hilos Entrelazados (Sutil)</option>
-                    <option value="bars">Barras de Audio (Imagen 4.png)</option>
-                    <option value="pulse">Pulsos Eléctricos (Múltiples)</option>
-                    <option value="electro">Electrocardiograma (Triangular)</option>
-                    <option value="bubbles">Burbujas Clásicas (Rellenas)</option>
-                    <option value="bubbles_pro">Burbujas Pro (Mezcla)</option>
-                    <option value="stars">Nebulosa (Partículas de Polvo)</option>
-                    <option value="dna">ADN / Conexiones</option>
-                    <option value="rock">Rock / Energía (Picos)</option>
-                    <option value="fire">Llamas de Energía (Fuego)</option>
-                    <option value="smoke">Humo Orgánico (Fluido)</option>
-                    <option value="cyber">Digital / Cyber (Bloques)</option>
-                    <option value="glitch">Glitch / Trap (Cortes)</option>
-                    <option value="podcast">Voz / Podcast (Espejado)</option>
-                    <option value="vinyl">Vintage Vinyl</option>
-                </select>
+            <!-- Botones de Estilo -->
+            <div class="control-group" style="width: 100%;">
+                <label>Selecciona el Estilo de Onda:</label>
+                <div id="waveStyleButtons" class="style-grid">
+                    <button class="btn-style active" data-value="sinusoidal">Hilos</button>
+                    <button class="btn-style" data-value="bars">Barras</button>
+                    <button class="btn-style" data-value="pulse">Pulsos</button>
+                    <button class="btn-style" data-value="electro">Electro</button>
+                    <button class="btn-style" data-value="bubbles">Burbujas</button>
+                    <button class="btn-style" data-value="bubbles_pro">Burbujas Pro</button>
+                    <button class="btn-style" data-value="stars">Nebulosa</button>
+                    <button class="btn-style" data-value="dna">ADN</button>
+                    <button class="btn-style" data-value="rock">Rock</button>
+                    <button class="btn-style" data-value="fire">Fuego</button>
+                    <button class="btn-style" data-value="smoke">Humo</button>
+                    <button class="btn-style" data-value="cyber">Cyber</button>
+                    <button class="btn-style" data-value="glitch">Glitch</button>
+                    <button class="btn-style" data-value="podcast">Podcast</button>
+                    <button class="btn-style" data-value="vinyl">Vinyl</button>
+                </div>
+                <input type="hidden" id="waveStyle" value="sinusoidal">
             </div>
-        </div>
         
-        <div class="control-group">
-            <label>Grosor del Trazo:</label>
-            <input type="range" id="waveThickness" min="1" max="20" value="2" oninput="dibujarOnda()">
-            <span id="thicknessValue">2px</span>
-        </div>
-        <div class="canvas-container" style="background: #111; padding: 10px; border-radius: 8px;">
-            <!-- Tamaño fijo solicitado -->
-            <canvas id="waveCanvas" width="1920" height="277"></canvas>
+            <!-- Control de Grosor -->
+            <div class="control-group">
+                <label>Grosor del Trazo: <span id="thicknessValue">2px</span></label>
+                <input type="range" id="waveThickness" min="1" max="20" value="2" oninput="dibujarOnda()">
+            </div>
+
+            <!-- Toggle de Fondo -->
+            <div class="control-group">
+                <label>Fondo de Previsualización:</label>
+                <div class="preview-toggle">
+                    <button class="btn-toggle active" onclick="cambiarFondoPreview('black', this)">Negro</button>
+                    <button class="btn-toggle" onclick="cambiarFondoPreview('white', this)">Blanco</button>
+                </div>
+            </div>
+
+            <!-- Contenedor del Canvas (Evita el desborde) -->
+            <div class="canvas-preview-container" id="canvasWrapper" style="background: #000; margin-top: 20px;">
+                <canvas id="waveCanvas" width="1920" height="277"></canvas>
+            </div>
         </div>
 
         <button onclick="descargarOnda()" class="btn-snippet" style="margin: 20px auto; background: #28a745; color: white; width: 100%;">
@@ -100,8 +119,6 @@
     </div>
 
 </div>
-
-
 
 </body>
 </html>
