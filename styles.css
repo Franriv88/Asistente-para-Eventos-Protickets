@@ -284,3 +284,117 @@ Agrega esto al final de tu CSS. He diseñado unos botones grandes y llamativos q
     width: 150px;
     height: auto;
 }
+
+/* Generador de Ondas */
+.colors-flex {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.color-picker-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.btn-mini-add {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.btn-remove-color {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.canvas-preview-container {
+    width: 100%; /* Se ajusta al ancho del contenedor blanco */
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden; /* Corta cualquier desborde */
+    line-height: 0;
+}
+
+#waveCanvas {
+    width: 100%;    /* Forzamos a que el dibujo se adapte al ancho disponible */
+    height: auto;   /* Mantiene la proporción 1920x277 */
+    display: block;
+}
+
+/* Estilo para el grupo de controles */
+.control-group {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* === UI DEL GENERADOR (GLASS STYLE) === */
+.wave-generator-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+/* Estilo para el Slider de grosor */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Select con estilo moderno */
+select#waveStyle {
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid #eee;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+}

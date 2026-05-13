@@ -53,6 +53,48 @@
             </div>
     </div>
 
+    <div class="wave-generator-section">
+        <h3>🌊 Generador de Ondas Protickets (1920x277)</h3>
+    
+        <div class="wave-controls">
+            <div id="colorsContainer" class="colors-flex">
+                <!-- Los colores se generan aquí dinámicamente -->
+            </div>
+            <button onclick="addColor()" class="btn-mini-add">+ Añadir Color</button>
+            
+            <div class="control-group">
+                <label>Estilo de Onda:</label>
+                    <select id="waveStyle" onchange="dibujarOnda()">
+                        <option value="sinusoidal">Hilos Entrelazados</option>
+                        <option value="bars">Barras de Audio</option>
+                        <option value="pulse">Pulsos Eléctricos</option>
+                        <option value="electro">Electrocardiograma</option>
+                        <option value="bubbles">Burbujas Clásicas</option>
+                        <option value="bubbles_pro">Burbujas Pro (Mezcla)</option>
+                        <option value="cyber">Digital / Cyber</option>
+                        <option value="fire">Llamas de Energía</option>
+                        <option value="dna">ADN / Conexiones</option>
+                        <option value="smoke">Humo Orgánico</option>
+                        <option value="rock">Rock / Energía</option>
+                    </select>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>Grosor del Trazo:</label>
+            <input type="range" id="waveThickness" min="1" max="20" value="2" oninput="dibujarOnda()">
+            <span id="thicknessValue">2px</span>
+        </div>
+        <div class="canvas-container" style="background: #111; padding: 10px; border-radius: 8px;">
+            <!-- Tamaño fijo solicitado -->
+            <canvas id="waveCanvas" width="1920" height="277"></canvas>
+        </div>
+
+        <button onclick="descargarOnda()" class="btn-snippet" style="margin: 20px auto; background: #28a745; color: white; width: 100%;">
+            💾 Descargar PNG Transparente (1920x277)
+        </button>
+    </div>
+
 </div>
 
 

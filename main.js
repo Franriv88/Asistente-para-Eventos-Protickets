@@ -319,3 +319,244 @@ function copiarCodigo(tipo) {
     });
 }
 
+//===========================================
+//    CREADOR DE ONDAS
+//===========================================
+let listaColores = ['#007bff', '#ff4d4d']; // Colores iniciales
+const canvas = document.getElementById('waveCanvas');
+const ctx = canvas.getContext('2d');
+
+// Iniciar la app
+renderColorPickers();
+
+function renderColorPickers() {
+    const container = document.getElementById('colorsContainer');
+    container.innerHTML = '';
+    
+    listaColores.forEach((color, index) => {
+        const div = document.createElement('div');
+        div.className = 'color-picker-unit';
+        div.innerHTML = `
+            <input type="color" value="${color}" oninput="updateColor(${index}, this.value)">
+            <input type="text" value="${color}" style="width:70px; font-size:12px; text-align:center;" 
+                   onchange="updateColor(${index}, this.value)">
+            ${index > 0 ? `<button class="btn-remove-color" onclick="removeColor(${index})">Eliminar</button>` : ''}
+        `;
+        container.appendChild(div);
+    });
+    dibujarOnda();
+}
+
+function updateColor(index, value) {
+    // Validar que sea un hex válido antes de asignar
+    if (value.startsWith('#') && (value.length === 7 || value.length === 4)) {
+        listaColores[index] = value;
+        renderColorPickers(); // Re-renderiza para sincronizar ambos inputs
+    }
+}
+
+function addColor() {
+    listaColores.push('#000000');
+    renderColorPickers();
+}
+
+function removeColor(index) {
+    listaColores.splice(index, 1);
+    renderColorPickers();
+}
+
+function dibujarOnda() {
+    const style = document.getElementById('waveStyle').value;
+    const thickness = parseFloat(document.getElementById('waveThickness').value);
+    document.getElementById('thicknessValue').textContent = thickness + "px";
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (listaColores.length === 0) return;
+
+    ctx.lineWidth = thickness;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    if (style === 'sinusoidal') {
+        listaColores.forEach((col, idx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.globalAlpha = 0.8;
+            for (let i = 0; i < canvas.width; i++) {
+                const y = 138 + Math.sin(i * 0.01 + idx) * 80 * Math.sin(i * 0.002 + idx);
+                ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+        });
+    } 
+
+    else if (style === 'bars') {
+        const step = 20; 
+        for (let i = 0; i < canvas.width; i += step) {
+            const h = Math.random() * 200 + 20;
+            ctx.fillStyle = listaColores[Math.floor(i / step) % listaColores.length];
+            const barWidth = thickness * 2; 
+            ctx.beginPath();
+            ctx.roundRect(i, 138 - h/2, barWidth, h, barWidth/2);
+            ctx.fill();
+        }
+    } 
+
+    else if (style === 'pulse') {
+        listaColores.forEach((col, idx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.moveTo(0, 138);
+            for (let i = 0; i < canvas.width; i++) {
+                let noise = 0;
+                [0.2, 0.5, 0.8].forEach(pos => {
+                    noise += Math.sin(i * 0.04) * Math.exp(-Math.pow((i - (canvas.width * pos + (idx * 30))) / 80, 2)) * 120;
+                });
+                ctx.lineTo(i, 138 + noise);
+            }
+            ctx.stroke();
+        });
+    }
+
+    else if (style === 'electro') {
+        listaColores.forEach((col, idx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.moveTo(0, 138);
+            for (let i = 0; i < canvas.width; i += 2) {
+                let y = 138;
+                if ((i + idx * 100) % 400 < 60) {
+                    const localX = (i + idx * 100) % 400;
+                    if (localX < 20) y -= localX * 2;
+                    else if (localX < 40) y = (138 - 40) + (localX - 20) * 6;
+                    else y = (138 + 80) - (localX - 40) * 4;
+                }
+                ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+        });
+    }
+
+    else if (style === 'bubbles') {
+        // Burbujas Clásicas (Rellenas)
+        listaColores.forEach((col, idx) => {
+            ctx.fillStyle = col;
+            ctx.globalAlpha = 0.6;
+            for (let i = 0; i < canvas.width; i += 40) {
+                const y = 138 + Math.sin(i * 0.005 + idx) * 80;
+                const size = Math.random() * (thickness * 5) + 2;
+                ctx.beginPath();
+                ctx.arc(i, y + (Math.random() * 20), size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        });
+    }
+
+    else if (style === 'bubbles_pro') {
+        // NUEVO: Burbujas Pro (Mezcla de Relleno y Contorno)
+        listaColores.forEach((col, idx) => {
+            for (let i = 0; i < canvas.width; i += 30) {
+                const y = 138 + Math.sin(i * 0.005 + idx) * 90;
+                const size = Math.random() * (thickness * 4) + 3;
+                ctx.beginPath();
+                ctx.arc(i, y + (Math.random() * 30), size, 0, Math.PI * 2);
+                if (i % 60 === 0) {
+                    ctx.strokeStyle = col;
+                    ctx.globalAlpha = 0.8;
+                    ctx.stroke();
+                } else {
+                    ctx.fillStyle = col;
+                    ctx.globalAlpha = 0.4;
+                    ctx.fill();
+                }
+            }
+        });
+    }
+
+    else if (style === 'cyber') {
+        // NUEVO: Estilo Digital / Matrix
+        listaColores.forEach((col, idx) => {
+            ctx.fillStyle = col;
+            const w = thickness * 3;
+            for (let i = 0; i < canvas.width; i += w + 5) {
+                const h = Math.abs(Math.sin(i * 0.01 + idx)) * 150;
+                ctx.globalAlpha = Math.random();
+                ctx.fillRect(i, 138 - h/2, w, h);
+            }
+        });
+    }
+
+    else if (style === 'fire') {
+        // NUEVO: Estilo Fuego / Llamas
+        listaColores.forEach((col, idx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.moveTo(0, 138);
+            for (let i = 0; i < canvas.width; i += 5) {
+                const noise = (Math.random() * thickness * 10);
+                const y = 138 + Math.sin(i * 0.01 + idx) * 80 - noise;
+                ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+        });
+    }
+
+    else if (style === 'dna') {
+        // NUEVO: Estilo ADN / Conexiones
+        listaColores.forEach((col, idx) => {
+            ctx.strokeStyle = col;
+            ctx.fillStyle = col;
+            for (let i = 0; i < canvas.width; i += 40) {
+                const y1 = 138 + Math.sin(i * 0.01 + idx) * 80;
+                const y2 = 138 + Math.sin(i * 0.01 + idx + Math.PI) * 80;
+                
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.moveTo(i, y1);
+                ctx.lineTo(i, y2);
+                ctx.stroke();
+                
+                ctx.globalAlpha = 1;
+                ctx.beginPath(); ctx.arc(i, y1, thickness, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(i, y2, thickness, 0, Math.PI*2); ctx.fill();
+            }
+        });
+    }
+
+    else if (style === 'smoke') {
+        listaColores.forEach((col, idx) => {
+            const seed = Math.random() * 100;
+            for (let s = 0; s < 15; s++) {
+                ctx.beginPath();
+                ctx.strokeStyle = col;
+                ctx.globalAlpha = 0.02 * (thickness / 2);
+                ctx.moveTo(0, 138);
+                for (let i = 0; i < canvas.width; i += 10) {
+                    const noise = Math.sin(i * 0.002 + s + seed) * Math.cos(i * 0.005 + idx) * 150;
+                    ctx.bezierCurveTo(i - 5, 138 + noise, i - 2, 138 + noise, i, 138 + noise);
+                }
+                ctx.stroke();
+            }
+        });
+    }
+
+    else if (style === 'rock') {
+        listaColores.forEach((col, idx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = col;
+            ctx.moveTo(0, 138);
+            for (let i = 0; i < canvas.width; i += 10) {
+                const spike = (Math.random() - 0.5) * 160 * Math.sin(i * 0.005 + idx);
+                ctx.lineTo(i, 138 + spike);
+            }
+            ctx.stroke();
+        });
+    }
+}
+
+function descargarOnda() {
+    const link = document.createElement('a');
+    link.download = `onda-protickets-${Date.now()}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+}
