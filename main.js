@@ -129,24 +129,18 @@ function copiarCodigo(tipo) {
 }
 
 // ==========================================
-// 🌊 CREADOR DE ONDAS (CORREGIDO)
+// 🌊 CREADOR DE ONDAS (CORREGIDO & LIMITADO)
 // ==========================================
 let listaColores = ['#007bff', '#ff4d4d'];
 const canvas = document.getElementById('waveCanvas');
 const ctx = canvas.getContext('2d');
 
-// Manejador de clics para los botones de estilo
 document.querySelectorAll('.btn-style').forEach(button => {
     button.addEventListener('click', function() {
-        // Quitar clase activa de todos
         document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active'));
-        // Añadir al seleccionado
         this.classList.add('active');
-        
-        // Actualizar el valor oculto y redibujar
         const styleInput = document.getElementById('waveStyle');
         styleInput.value = this.getAttribute('data-value');
-        
         dibujarOnda();
     });
 });
@@ -188,6 +182,12 @@ function dibujarOnda() {
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
+    const centroY = 138;
+    const minY = 10;
+    const maxY = 267;
+
+    const clamp = (val) => Math.max(minY, Math.min(maxY, val));
+
     listaColores.forEach((col, idx) => {
         ctx.beginPath();
         ctx.strokeStyle = col;
@@ -197,8 +197,8 @@ function dibujarOnda() {
         if (style === 'sinusoidal') {
             ctx.globalAlpha = 0.8;
             for (let i = 0; i < canvas.width; i++) {
-                const y = 138 + Math.sin(i * 0.01 + idx) * 80 * Math.sin(i * 0.002 + idx);
-                ctx.lineTo(i, y);
+                const y = centroY + Math.sin(i * 0.01 + idx) * 80 * Math.sin(i * 0.002 + idx);
+                ctx.lineTo(i, clamp(y));
             }
             ctx.stroke();
         } 
@@ -208,8 +208,8 @@ function dibujarOnda() {
                 ctx.beginPath();
                 for (let i = 0; i < canvas.width; i += 5) {
                     const wave = Math.sin(i * 0.05 + idx + r) * 10;
-                    const y = 138 + wave + (r * 30 - 30);
-                    ctx.lineTo(i, y);
+                    const y = centroY + wave + (r * 30 - 30);
+                    ctx.lineTo(i, clamp(y));
                 }
                 ctx.stroke();
             }
@@ -220,86 +220,94 @@ function dibujarOnda() {
                 if(Math.floor(i / step) % listaColores.length === idx) {
                     const h = Math.random() * 200 + 20;
                     ctx.beginPath();
-                    ctx.roundRect(i, 138 - h/2, thickness * 2, h, thickness);
+                    ctx.roundRect(i, clamp(centroY - h/2), thickness * 2, Math.min(h, 250), thickness);
                     ctx.fill();
                 }
             }
         }
         else if (style === 'pulse') {
-            ctx.moveTo(0, 138);
+            ctx.moveTo(0, centroY);
             for (let i = 0; i < canvas.width; i++) {
                 let noise = 0;
                 [0.2, 0.5, 0.8].forEach(pos => {
                     noise += Math.sin(i * 0.04) * Math.exp(-Math.pow((i - (canvas.width * pos + (idx * 30))) / 80, 2)) * 120;
                 });
-                ctx.lineTo(i, 138 + noise);
+                ctx.lineTo(i, clamp(centroY + noise));
             }
             ctx.stroke();
         }
         else if (style === 'electro') {
-            ctx.moveTo(0, 138);
+            ctx.moveTo(0, centroY);
             for (let i = 0; i < canvas.width; i += 2) {
-                let y = 138;
+                let y = centroY;
                 if ((i + idx * 100) % 400 < 60) {
                     const localX = (i + idx * 100) % 400;
                     if (localX < 20) y -= localX * 2;
-                    else if (localX < 40) y = (138 - 40) + (localX - 20) * 6;
-                    else y = (138 + 80) - (localX - 40) * 4;
+                    else if (localX < 40) y = (centroY - 40) + (localX - 20) * 6;
+                    else y = (centroY + 80) - (localX - 40) * 4;
                 }
-                ctx.lineTo(i, y);
+                ctx.lineTo(i, clamp(y));
             }
             ctx.stroke();
         }
         else if (style === 'bubbles' || style === 'bubbles_pro') {
             ctx.globalAlpha = 0.5;
             for (let i = 0; i < canvas.width; i += 40) {
-                const y = 138 + Math.sin(i * 0.005 + idx) * 80;
+                const y = centroY + Math.sin(i * 0.005 + idx) * 80;
                 const size = Math.random() * (thickness * 5) + 2;
                 ctx.beginPath();
-                ctx.arc(i, y + (Math.random() * 20), size, 0, Math.PI * 2);
+                ctx.arc(i, clamp(y + (Math.random() * 20)), size, 0, Math.PI * 2);
                 if(style === 'bubbles_pro' && i % 80 === 0) ctx.stroke(); else ctx.fill();
             }
         }
         else if (style === 'stars') {
             for (let i = 0; i < canvas.width; i += 15) {
-                const yBase = 138 + Math.sin(i * 0.01 + idx) * 80;
+                const yBase = centroY + Math.sin(i * 0.01 + idx) * 80;
                 for (let p = 0; p < 3; p++) {
                     ctx.globalAlpha = Math.random() * 0.5;
                     ctx.beginPath();
-                    ctx.arc(i + (Math.random()-0.5)*20, yBase + (Math.random()-0.5)*40, Math.random()*thickness, 0, Math.PI*2);
+                    ctx.arc(i + (Math.random()-0.5)*20, clamp(yBase + (Math.random()-0.5)*40), Math.random()*thickness, 0, Math.PI*2);
                     ctx.fill();
                 }
             }
         }
         else if (style === 'rock') {
-            ctx.moveTo(0, 138);
+            ctx.moveTo(0, centroY);
             for (let i = 0; i < canvas.width; i += 10) {
-                ctx.lineTo(i, 138 + (Math.random() - 0.5) * 160 * Math.sin(i * 0.005 + idx));
+                let y = centroY + (Math.random() - 0.5) * 160 * Math.sin(i * 0.005 + idx);
+                ctx.lineTo(i, clamp(y));
             }
             ctx.stroke();
         }
         else if (style === 'fire') {
-            ctx.moveTo(0, 138);
+            ctx.moveTo(0, centroY);
             for (let i = 0; i < canvas.width; i += 5) {
-                ctx.lineTo(i, 138 + Math.sin(i * 0.01 + idx) * 80 - (Math.random() * thickness * 8));
+                let y = centroY + Math.sin(i * 0.01 + idx) * 80 - (Math.random() * thickness * 8);
+                ctx.lineTo(i, clamp(y));
             }
             ctx.stroke();
         }
         else if (style === 'dna') {
             for (let i = 0; i < canvas.width; i += 40) {
-                const y1 = 138 + Math.sin(i * 0.01 + idx) * 80;
-                const y2 = 138 + Math.sin(i * 0.01 + idx + Math.PI) * 80;
-                ctx.globalAlpha = 0.2; ctx.moveTo(i, y1); ctx.lineTo(i, y2); ctx.stroke();
-                ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(i, y1, thickness, 0, Math.PI*2); ctx.fill();
-                ctx.beginPath(); ctx.arc(i, y2, thickness, 0, Math.PI*2); ctx.fill();
+                const y1 = centroY + Math.sin(i * 0.01 + idx) * 80;
+                const y2 = centroY + Math.sin(i * 0.01 + idx + Math.PI) * 80;
+                ctx.globalAlpha = 0.2; ctx.moveTo(i, clamp(y1)); ctx.lineTo(i, clamp(y2)); ctx.stroke();
+                ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(i, clamp(y1), thickness, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(i, clamp(y2), thickness, 0, Math.PI*2); ctx.fill();
             }
         }
         else if (style === 'smoke') {
-            ctx.globalAlpha = 0.02 * (thickness / 2);
-            for (let s = 0; s < 10; s++) {
-                ctx.beginPath(); ctx.moveTo(0, 138);
-                for (let i = 0; i < canvas.width; i += 15) {
-                    ctx.bezierCurveTo(i-5, 138, i-2, 138+Math.sin(i*0.002+s)*100, i, 138+Math.sin(i*0.002+s)*100);
+            const numLineas = 20;
+            for (let s = 0; s < numLineas; s++) {
+                ctx.beginPath();
+                ctx.globalAlpha = 0.1; 
+                ctx.lineWidth = thickness * 0.3;
+                ctx.moveTo(0, centroY);
+                for (let i = 0; i < canvas.width; i += 5) {
+                    const desfase = s * 0.05;
+                    const amp = 100 * Math.sin(i * 0.002 + idx);
+                    const y = centroY + Math.sin(i * 0.005 + desfase + idx) * amp;
+                    ctx.lineTo(i, clamp(y));
                 }
                 ctx.stroke();
             }
@@ -309,20 +317,70 @@ function dibujarOnda() {
             for (let i = 0; i < canvas.width; i += w + 5) {
                 const h = Math.abs(Math.sin(i * 0.01 + idx)) * 150;
                 ctx.globalAlpha = Math.random();
-                ctx.fillRect(i, 138 - h/2, w, h);
+                ctx.fillRect(i, clamp(centroY - h/2), w, Math.min(h, 250));
             }
+        }
+        else if (style === 'lightning') {
+            ctx.beginPath();
+            ctx.lineWidth = thickness * 0.5;
+            ctx.moveTo(0, centroY);
+            let curY = centroY;
+            for (let i = 0; i < canvas.width; i += 15) {
+                let salto = (Math.random() - 0.5) * 120 * Math.sin(i * 0.01 + idx);
+                curY = clamp(curY + salto);
+                ctx.lineTo(i, curY);
+                if (Math.random() > 0.8) {
+                    ctx.lineTo(i + 10, clamp(curY + 40));
+                    ctx.moveTo(i, curY);
+                }
+            }
+            ctx.stroke();
+        }
+        else if (style === 'radar') {
+            for (let i = 0; i < canvas.width; i += 25) {
+                const intensity = Math.abs(Math.sin(i * 0.01 + idx));
+                ctx.globalAlpha = intensity;
+                ctx.lineWidth = thickness * intensity;
+                ctx.beginPath();
+                ctx.moveTo(i, clamp(centroY - (intensity * 120)));
+                ctx.lineTo(i, clamp(centroY + (intensity * 120)));
+                ctx.stroke();
+            }
+        }
+        else if (style === 'lava') {
+            ctx.globalAlpha = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(0, centroY);
+            for (let i = 0; i < canvas.width; i += 20) {
+                const y = centroY + Math.sin(i * 0.005 + idx) * 100 * Math.cos(i * 0.002 + idx);
+                const yc = clamp(y);
+                ctx.bezierCurveTo(i - 10, clamp(yc + 20), i - 10, clamp(yc - 20), i, yc);
+            }
+            ctx.lineTo(canvas.width, centroY);
+            ctx.fill();
         }
         else if (style === 'glitch') {
             for (let i = 0; i < canvas.width; i += 30) {
                 const h = Math.sin(i * 0.01 + idx) * 100;
-                ctx.strokeRect(i + (Math.random()-0.5)*20, 138 - h, 15, 2);
+                ctx.strokeRect(i + (Math.random()-0.5)*20, clamp(centroY - h), 15, 2);
+            }
+        }
+        else if (style === 'strings') {
+            ctx.globalAlpha = 0.4;
+            for (let i = 0; i < canvas.width; i += 15) {
+                const y1 = centroY + Math.sin(i * 0.01 + idx) * 90;
+                const y2 = centroY + Math.cos(i * 0.015 + idx) * 60;
+                ctx.beginPath();
+                ctx.moveTo(i, clamp(y1));
+                ctx.lineTo(i, clamp(y2));
+                ctx.stroke();
             }
         }
         else if (style === 'podcast') {
             ctx.globalAlpha = 0.6;
             for (let i = 0; i < canvas.width; i += 4) {
                 const val = Math.sin(i * 0.02 + idx) * Math.cos(i * 0.005) * 100;
-                ctx.moveTo(i, 138 - val); ctx.lineTo(i, 138 + val);
+                ctx.moveTo(i, clamp(centroY - val)); ctx.lineTo(i, clamp(centroY + val));
             }
             ctx.stroke();
         }
@@ -336,20 +394,15 @@ function descargarOnda() {
     link.click();
 }
 
-renderColorPickers();
-
-
 function cambiarFondoPreview(color, btn) {
     const wrapper = document.getElementById('canvasWrapper');
-    
-    // Cambiar color de fondo
     if (color === 'white') {
         wrapper.classList.add('bg-white');
     } else {
         wrapper.classList.remove('bg-white');
     }
-
-    // Gestionar estado activo de los botones
     btn.parentElement.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }
+
+renderColorPickers();
