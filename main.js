@@ -183,9 +183,9 @@ function copiarTexto(texto) {
 
 function copiarInput(id) {
     const input = document.getElementById(id);
-    input.select();
-    document.execCommand('copy');
-    alert("URL copiada");
+    navigator.clipboard.writeText(input.value).then(() => {
+        // alert("URL copiada con éxito");
+    });
 }
 
 
