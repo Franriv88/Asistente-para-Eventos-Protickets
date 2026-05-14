@@ -120,12 +120,34 @@ function copiarTexto(texto) { navigator.clipboard.writeText(texto); }
 // ==========================================
 // ⚡ SNIPPETS
 // ==========================================
-const CODIGO_QUENTRO = `/* Tu código Quentro aquí */`;
-const CODIGO_LANDING = `/* Tu código Landing aquí */`;
+// ==========================================
+// ⚡ SNIPPETS (Carga desde archivos externos)
+// ==========================================
 
-function copiarCodigo(tipo) {
-    let texto = tipo === 'quentro' ? CODIGO_QUENTRO : CODIGO_LANDING;
-    navigator.clipboard.writeText(texto);
+async function copiarCodigo(tipo) {
+    // Definimos qué archivo vamos a buscar según el botón presionado
+    const archivo = tipo === 'quentro' ? 'quentroCode.txt' : 'css_paraLanding.txt';
+    
+    try {
+        // Buscamos el archivo
+        const respuesta = await fetch(archivo);
+        
+        if (!respuesta.ok) throw new Error("No se pudo encontrar el archivo " + archivo);
+        
+        // Extraemos el texto del archivo
+        const texto = await respuesta.text();
+        
+        // Copiamos al portapapeles
+        await navigator.clipboard.writeText(texto);
+        
+        // Opcional: Feedback visual en la consola o alerta
+        console.log(`✅ Código de ${tipo} copiado con éxito.`);
+        // alert(`Código de ${tipo} copiado al portapapeles.`);
+
+    } catch (error) {
+        console.error("Error al copiar el código:", error);
+        alert("Hubo un error al intentar leer el archivo de código.");
+    }
 }
 
 // ==========================================

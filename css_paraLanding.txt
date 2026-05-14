@@ -1,0 +1,142 @@
+.event_blocks {
+    position: relative; /* Necesario para ubicar el pseudo-elemento */
+    background: #000 url(https://i.ibb.co/gM94f2mS/Mundo-K-POP-1920x720-Fondo.jpg) no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden; /* Evita que el blur se desborde */
+    z-index: 1;
+}
+
+.btn dropdown-toggle op-ini{
+    background-color: #da11f9;
+    background-size: cover;
+    border-color: #da11f9;
+}
+
+
+.dropdown-menu{
+    background-color: #f2c32b;
+    background-size: cover;
+}
+
+#show-button{
+    background-color: #da11f9;
+    border-color: #da11f9;
+    background-size: cover;
+}
+
+.event_blocks::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Aquí aplicas el color y el blur */
+    background: rgba(151, 86, 179, 0.454); 
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(15px); /* Soporte para Safari */
+    
+    z-index: -1; /* Se coloca detrás del contenido, pero sobre el background original */
+}
+
+.event-picker{
+    background: #da11f9 no-repeat center center fixed;
+    background-size: cover;
+}
+
+.event-picker .action-container .btn {
+    width: 100%;
+    height: 100%;
+    background: #f2c32b;
+    padding: 10px;
+    color: #FFF;
+    font-size: 1.4em;
+    letter-spacing: 0.1em;
+    border-radius: 9px !important;
+    box-shadow: inset 0px -4px 0 #f2c32b, 0px 17px 18px -16px #000 !important;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.event-picker .action-container .btn:hover{
+    color: #da11f9;
+    background:#FFF;
+}
+
+.text{
+   color: #fff;
+   text-align: center;
+   font-size: 20px;
+
+}
+
+.text strong{
+    color:#f2c32b;
+}
+
+summary{
+   color: #fff;
+}
+
+.container_quentro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .item p {
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+        .link-image {
+            width: 100%;
+            max-width: 100px; /* Ajusta este valor según necesites */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .link-image:hover {
+            transform: scale(1.1);
+        }
+        .icons {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15px;
+        }
+        .icon-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .icon-container p {
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .icon:hover {
+            transform: scale(1.2);
+        }
+        
+        .container_quentro p{
+            font-size: 23px;
+            color: #FFF;
+        }
+
+.grid_element .information {
+    background: none;
+}
+

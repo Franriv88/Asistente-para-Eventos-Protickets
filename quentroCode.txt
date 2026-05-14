@@ -1,0 +1,23 @@
+
+<div class="container_quentro">
+        <div class="icons">
+            <div class="icon-container">
+                <p>Descargá Quentro desde tu celular acá:</p>
+                <a href="https://play.google.com/store/apps/details?id=com.getcrowder.quentro&pli=1" target="_blank">
+                    <img src="https://cdn.getcrowder.com/images/fa97c118-82ae-4396-9f16-b784812d8fd8-playstore.png" alt="Ícono 1" class="icon">
+                </a>
+            </div>
+            <div class="icon-container">
+                <!-- <p>Ícono 2</p> -->
+                <a href="https://apps.apple.com/us/app/quentro" target="_blank">
+                    <img src="https://cdn.getcrowder.com/images/3fbc8b88-791d-4863-b06d-2c8b00046d48-game.png" alt="Ícono 2" class="icon">
+                </a>
+            </div>
+        </div>
+        <div class="item">
+            <p>Instructivo</p>
+            <a href="https://drive.google.com/file/d/10gRr4A2m8Nfjdjc6S8VgcWh324JGzek3/view" target="_blank">
+                <img src="https://cdn.getcrowder.com/images/d237bbbe-6942-47e9-be34-bb9da929c46b-quentro-png.png" alt="Imagen Principal" class="link-image">
+            </a>
+        </div>
+    </div>
