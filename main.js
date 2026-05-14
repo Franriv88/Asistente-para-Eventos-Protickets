@@ -125,28 +125,25 @@ function copiarTexto(texto) { navigator.clipboard.writeText(texto); }
 // ==========================================
 
 async function copiarCodigo(tipo) {
-    // Definimos qué archivo vamos a buscar según el botón presionado
-    const archivo = tipo === 'quentro' ? 'quentroCode.txt' : 'css_paraLanding.txt';
+    // Usamos ./ para forzar la ruta relativa a la carpeta actual
+    const nombreArchivo = tipo === 'quentro' ? 'quentroCode.txt' : 'css_paraLanding.txt';
+    const rutaArchivo = `./${nombreArchivo}`;
     
     try {
-        // Buscamos el archivo
-        const respuesta = await fetch(archivo);
+        const respuesta = await fetch(rutaArchivo);
         
-        if (!respuesta.ok) throw new Error("No se pudo encontrar el archivo " + archivo);
+        if (!respuesta.ok) {
+            throw new Error(`No se pudo cargar ${nombreArchivo} (Status: ${respuesta.status})`);
+        }
         
-        // Extraemos el texto del archivo
         const texto = await respuesta.text();
-        
-        // Copiamos al portapapeles
         await navigator.clipboard.writeText(texto);
         
-        // Opcional: Feedback visual en la consola o alerta
-        console.log(`✅ Código de ${tipo} copiado con éxito.`);
-        // alert(`Código de ${tipo} copiado al portapapeles.`);
+        alert(`✅ Código de ${tipo} copiado.`);
 
     } catch (error) {
-        console.error("Error al copiar el código:", error);
-        alert("Hubo un error al intentar leer el archivo de código.");
+        console.error("Error en fetch:", error);
+        alert("Error: Verifica que los archivos .txt existan en GitHub.");
     }
 }
 
